@@ -1,0 +1,85 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "type": "string"
+    },
+    "storageAccountKind": {
+      "type": "string"
+    },
+    "storageAccountAccessTier": {
+      "type": "string"
+    },
+    "storageAccountSkuTier": {
+      "type": "string"
+    },
+    "storageAccountSkuName": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "resourceId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]",
+    "storageApiVersion": "2019-06-01"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[parameters('storageAccountName')]",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "[variables('storageApiVersion')]",
+      "sku": {
+        "name": "[parameters('storageAccountSkuName')]",
+        "tier": "[parameters('storageAccountSkuTier')]"
+      },
+      "kind": "[parameters('storageAccountKind')]",
+      "properties": {
+        "accessTier": "[parameters('storageAccountAccessTier')]"
+      },
+      "resources": [
+        {
+          "name": "default",
+          "type": "queueServices",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "properties": {
+          },
+          "dependsOn": [
+            "[parameters('storageAccountName')]"
+          ],
+          "resources": [
+            {
+              "name": "queue1",
+              "type": "queues",
+              "apiVersion": "[variables('storageApiVersion')]",
+              "properties": {
+              },
+              "dependsOn": [
+                "default"
+              ]
+            },
+            {
+              "name": "queue2",
+              "type": "queues",
+              "apiVersion": "[variables('storageApiVersion')]",
+              "properties": {
+              },
+              "dependsOn": [
+                "default"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "outputs": {
+    "storageAccountKey": {
+      "type": "string",
+      "value": "[listKeys(variables('resourceId'), variables('storageApiVersion')).keys[0].value]"
+    },
+    "storageAccountEndpoint": {
+      "type": "string",
+      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(variables('resourceId'), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=core.windows.net')]"
+    }
+  }
+}

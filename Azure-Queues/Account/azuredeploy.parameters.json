@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "value": "#{Azure.Storage.Account.Name}"
+    },
+    "storageAccountKind": {
+      "value": "#{Azure.Storage.Account.Kind}"
+    },
+    "storageAccountAccessTier": {
+      "value": "#{Azure.Storage.Account.AccessTier}"
+    },
+    "storageAccountSkuTier": {
+      "value": "#{Azure.Storage.Account.Sku.Tier}"
+    },
+    "storageAccountSkuName": {
+      "value": "#{Azure.Storage.Account.Sku.Name}"
+    }
+  }
+}

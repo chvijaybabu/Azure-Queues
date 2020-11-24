@@ -1,0 +1,293 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountName": {
+      "type": "string"
+    },
+    "dashboardName": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "externalId": "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+  },
+  "resources": [
+    {
+      "name": "[parameters('dashboardName')]",
+      "type": "Microsoft.Portal/dashboards",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2019-01-01-preview",
+      "tags": {
+        "hidden-title": "[parameters('dashboardName')]"
+      },
+      "properties": {
+        "lenses": {
+          "0": {
+            "order": 0,
+            "parts": {
+              "0": {
+                "position": {
+                  "x": 0,
+                  "y": 0,
+                  "colSpan": 8,
+                  "rowSpan": 5
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "sharedTimeRange",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "options",
+                      "value": {
+                        "chart": {
+                          "metrics": [
+                            {
+                              "resourceMetadata": {
+                                "id": "[variables('externalId')]"
+                              },
+                              "name": "QueueCapacity",
+                              "aggregationType": 4,
+                              "namespace": "microsoft.storage/storageaccounts/queueservices",
+                              "metricVisualization": {
+                                "displayName": "Queue Capacity"
+                              }
+                            },
+                            {
+                              "resourceMetadata": {
+                                "id": "[variables('externalId')]"
+                              },
+                              "name": "QueueCount",
+                              "aggregationType": 4,
+                              "namespace": "microsoft.storage/storageaccounts/queueservices",
+                              "metricVisualization": {
+                                "displayName": "Queue Count"
+                              }
+                            },
+                            {
+                              "resourceMetadata": {
+                                "id": "[variables('externalId')]"
+                              },
+                              "name": "QueueMessageCount",
+                              "aggregationType": 4,
+                              "namespace": "microsoft.storage/storageaccounts/queueservices",
+                              "metricVisualization": {
+                                "displayName": "Queue Message Count"
+                              }
+                            }
+                          ],
+                          "title": "Queue Avg Capacity/Count/Message Count",
+                          "titleKind": 1,
+                          "visualization": {
+                            "chartType": 2,
+                            "legendVisualization": {
+                              "isVisible": true,
+                              "position": 2,
+                              "hideSubtitle": false
+                            },
+                            "axisVisualization": {
+                              "x": {
+                                "isVisible": true,
+                                "axisType": 2
+                              },
+                              "y": {
+                                "isVisible": true,
+                                "axisType": 1
+                              }
+                            }
+                          },
+                          "timespan": {
+                            "relative": {
+                              "duration": 86400000
+                            },
+                            "showUTCTime": false,
+                            "grain": 1
+                          }
+                        }
+                      },
+                      "isOptional": true
+                    }
+                  ],
+                  "type": "Extension/HubsExtension/PartType/MonitorChartPart",
+                  "settings": {
+                    "content": {
+                      "options": {
+                        "chart": {
+                          "metrics": [
+                            {
+                              "resourceMetadata": {
+                                "id": "[variables('externalId')]"
+                              },
+                              "name": "QueueCapacity",
+                              "aggregationType": 4,
+                              "namespace": "microsoft.storage/storageaccounts/queueservices",
+                              "metricVisualization": {
+                                "displayName": "Queue Capacity"
+                              }
+                            },
+                            {
+                              "resourceMetadata": {
+                                "id": "[variables('externalId')]"
+                              },
+                              "name": "QueueCount",
+                              "aggregationType": 4,
+                              "namespace": "microsoft.storage/storageaccounts/queueservices",
+                              "metricVisualization": {
+                                "displayName": "Queue Count"
+                              }
+                            },
+                            {
+                              "resourceMetadata": {
+                                "id": "[variables('externalId')]"
+                              },
+                              "name": "QueueMessageCount",
+                              "aggregationType": 4,
+                              "namespace": "microsoft.storage/storageaccounts/queueservices",
+                              "metricVisualization": {
+                                "displayName": "Queue Message Count"
+                              }
+                            }
+                          ],
+                          "title": "Queue Avg Capacity/Count/Message Count",
+                          "titleKind": 1,
+                          "visualization": {
+                            "chartType": 2,
+                            "legendVisualization": {
+                              "isVisible": true,
+                              "position": 2,
+                              "hideSubtitle": false
+                            },
+                            "axisVisualization": {
+                              "x": {
+                                "isVisible": true,
+                                "axisType": 2
+                              },
+                              "y": {
+                                "isVisible": true,
+                                "axisType": 1
+                              }
+                            },
+                            "disablePinning": true
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "filters": {
+                    "MsPortalFx_TimeRange": {
+                      "model": {
+                        "format": "local",
+                        "granularity": "auto",
+                        "relative": "10080m"
+                      }
+                    }
+                  }
+                }
+              },
+              "1": {
+                "position": {
+                  "x": 8,
+                  "y": 0,
+                  "colSpan": 2,
+                  "rowSpan": 1
+                },
+                "metadata": {
+                  "inputs": [
+                    {
+                      "name": "ComponentId",
+                      "value": "[variables('externalId')]"
+                    },
+                    {
+                      "name": "ResourceIds",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Type",
+                      "value": "storage-insights",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "TimeContext",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ConfigurationId",
+                      "value": "Community-Workbooks/Individual Storage/Overview",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "ViewerMode",
+                      "value": true,
+                      "isOptional": true
+                    },
+                    {
+                      "name": "GalleryResourceType",
+                      "value": "microsoft.storage/storageaccounts",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "NotebookParams",
+                      "value": "{\"StorageAccount\":\"value::1\",\"TimeRange\":{\"durationMs\":14400000,\"createdTime\":\"2020-06-15T19:52:16.321Z\",\"isInitialTime\":false,\"grain\":1,\"useDashboardTimeRange\":false},\"tab\":\"overview\"}",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Location",
+                      "isOptional": true
+                    },
+                    {
+                      "name": "Version",
+                      "value": "1.0",
+                      "isOptional": true
+                    }
+                  ],
+                  "type": "Extension/AppInsightsExtension/PartType/NotebookPinnedPart",
+                  "viewState": {
+                    "content": {
+                      "configurationId": "Community-Workbooks/Individual Storage/Overview"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "metadata": {
+          "model": {
+            "timeRange": {
+              "value": {
+                "relative": {
+                  "duration": 24,
+                  "timeUnit": 1
+                }
+              },
+              "type": "MsPortalFx.Composition.Configuration.ValueTypes.TimeRange"
+            },
+            "filterLocale": {
+              "value": "en-us"
+            },
+            "filters": {
+              "value": {
+                "MsPortalFx_TimeRange": {
+                  "model": {
+                    "format": "utc",
+                    "granularity": "auto",
+                    "relative": "24h"
+                  },
+                  "displayCache": {
+                    "name": "UTC Time",
+                    "value": "Past 24 hours"
+                  },
+                  "filteredPartIds": [
+                    "StartboardPart-MonitorChartPart-d923f9a8-3e35-4b02-92ba-247751500062"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
